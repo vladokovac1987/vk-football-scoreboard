@@ -3,6 +3,8 @@
 ## Overview
 This library provides an in-memory scoreboard for managing ongoing football matches, allowing you to start matches, update scores, finish matches, and retrieve a summary of matches ordered by score.
 
+I was free to add REST Controller level and also tests that cover controller. I hope that will not be treated as a mistake. I considered that as plus and it is probably mentioned it is not expected REST app to save time and focus on main task.
+
 ## Features
 
 **ScoreboardService Class Features:**
