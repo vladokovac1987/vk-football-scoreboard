@@ -1,11 +1,14 @@
 package footbal.scoreboard.service;
 
 import footbal.scoreboard.Match;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ScoreboardService {
     public static final String MATCH_INDEX_IS_OUT_OF_RANGE = "Match index is out of range.";
@@ -22,11 +25,24 @@ public class ScoreboardService {
     }
 
     public void startMatch(String homeTeam, String awayTeam) {
+        if (!StringUtils.hasText(homeTeam) || !StringUtils.hasText(awayTeam)) {
+            throw new IllegalArgumentException(CANNOT_BE_NULL_OR_EMPTY);
+        }
+
+        if (matches.stream().anyMatch(match -> match.getHomeTeam().equals(homeTeam) || match.getAwayTeam().equals(awayTeam))) {
+            throw new IllegalArgumentException(ALREADY_EXISTS);
+        }
+
         matches.add(new Match(homeTeam, awayTeam));
     }
 
     public void updateScore(int matchIndex, int homeScore, int awayScore) {
         validateMatchIndex(matchIndex);
+
+        if (homeScore < 0 || awayScore < 0) {
+            throw new IllegalArgumentException(CANNOT_BE_NEGATIVE);
+        }
+
         matches.get(matchIndex).updateScore(homeScore, awayScore);
     }
 
@@ -36,10 +52,15 @@ public class ScoreboardService {
     }
 
     private void validateMatchIndex(int index) {
+        if (index < 0 || index >= matches.size()) {
+            throw new IndexOutOfBoundsException(MATCH_INDEX_IS_OUT_OF_RANGE);
+        }
     }
 
     public List<String> getFormatedSortedSummary() {
-        return Collections.emptyList();
+        return IntStream.range(0, matches.size())
+                .mapToObj(i -> (i + 1) + ". " + sortMatches().get(i).toString())
+                .collect(Collectors.toList());
     }
 
     public List<Match> getSortedMatches() {
@@ -47,7 +68,11 @@ public class ScoreboardService {
     }
 
     private List<Match> sortMatches() {
-        return new ArrayList<>(matches);
+        return matches.stream()
+                .sorted(Comparator.comparingInt(Match::getTotalScore)
+                        .reversed()
+                        .thenComparing(Comparator.comparing(Match::getStartTime).reversed()))
+                .collect(Collectors.toList());
     }
 
     public void reset() {
