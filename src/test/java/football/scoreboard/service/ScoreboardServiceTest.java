@@ -1,6 +1,6 @@
-package footbal.scoreboard.service;
+package football.scoreboard.service;
 
-import footbal.scoreboard.Match;
+import football.scoreboard.Match;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 
-import static footbal.scoreboard.service.ScoreboardService.*;
+import static football.scoreboard.service.ScoreboardService.*;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;

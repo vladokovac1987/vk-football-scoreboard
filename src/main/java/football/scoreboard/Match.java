@@ -1,4 +1,4 @@
-package footbal.scoreboard;
+package football.scoreboard;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;

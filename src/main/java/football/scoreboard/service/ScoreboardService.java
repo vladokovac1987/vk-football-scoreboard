@@ -1,6 +1,7 @@
-package footbal.scoreboard.service;
+package football.scoreboard.service;
 
-import footbal.scoreboard.Match;
+import football.scoreboard.Match;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Service
 public class ScoreboardService {
     public static final String MATCH_INDEX_IS_OUT_OF_RANGE = "Match index is out of range.";
     public static final String CANNOT_BE_NULL_OR_EMPTY = "Team names cannot be null or empty";
